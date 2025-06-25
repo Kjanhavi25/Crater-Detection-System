@@ -8,17 +8,8 @@ import seaborn as sns
 import plotly.express as px
 
 # Load the trained YOLOv5 model
-model_path = 'C:/Users/venka/OneDrive/Desktop/moon_crater_detection/scripts/yolov5_crater_detection/exp/weights/best.pt'
+model_path = 'E:/Projects/Crater Detection System/scripts/yolov5_crater_detection/exp/weights/best.pt'
 model = torch.hub.load('ultralytics/yolov5', 'custom', path=model_path)
-
-# Team Details
-st.title("Crater and Boulder Detection")
-st.write("""
-### Team: CraterDetectives
-- **Sunkara Venkata Karthik Sai** (Team Lead)
-- **Jataved Reddy**
-- **M Ruhika**
-""")
 
 # Upload image section
 st.header("Upload an Image")
@@ -28,19 +19,17 @@ if uploaded_file is not None:
     # Display the uploaded image
     image = Image.open(uploaded_file)
     st.image(image, caption='Uploaded Image', use_column_width=True)
-    st.write("")
     st.write("Detecting craters and boulders...")
 
     # Run YOLOv5 model on the uploaded image
     results = model(image)
 
     # Display results
-    results.show()
     st.image(results.render()[0], caption='Detected Image', use_column_width=True)
-    
+
     # Save the detected image
     detected_image_path = os.path.join("yolov5_crater_detection", "detected_image.jpg")
-    results.save(save_dir="yolov5_crater_detection")
+    results.save(save_dir="yolov5_crater_detection")  # Ensure this directory exists
 
     # Display coordinates of detected craters and boulders
     st.header("Detected Craters/Boulders Coordinates")
@@ -66,7 +55,7 @@ if uploaded_file is not None:
 st.header("Model Accuracy")
 
 # Read the results.csv file to get accuracy metrics
-results_csv_path = 'C:/Users/venka/OneDrive/Desktop/moon_crater_detection/scripts/yolov5_crater_detection/exp/results.csv'
+results_csv_path = 'E:/Projects/Crater Detection System/scripts/yolov5_crater_detection/exp/results.csv'
 if os.path.exists(results_csv_path):
     results_df = pd.read_csv(results_csv_path)
     # Display column names to help identify the correct metric column
